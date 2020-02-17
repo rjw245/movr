@@ -313,8 +313,8 @@ def add_rides(engine, num_rides, city):
     datagen = Faker()
 
     def add_rides_helper(sess, chunk, n):
-        users = sess.query(User).filter_by(city=city).all()
-        vehicles = sess.query(Vehicle).filter_by(city=city).all()
+        users = sess.query(User).order_by(User.id.desc()).filter_by(city=city).all()
+        vehicles = sess.query(Vehicle).order_by(Vehicle.id.desc()).filter_by(city=city).all()
 
         rides = []
         for i in range(chunk, min(chunk + chunk_size, num_rides)):
@@ -360,7 +360,7 @@ def add_vehicle_location_histories(engine, num_histories, city):
     chunk_size = 5000
 
     def add_vehicle_location_histories_helper(sess, chunk, n):
-        rides = sess.query(Ride).filter_by(city=city).all()
+        rides = sess.query(Ride).order_by(Ride.id.desc()).filter_by(city=city).all()
 
         histories = []
         for i in range(chunk, min(chunk + chunk_size, num_histories)):
@@ -400,7 +400,7 @@ def add_vehicles(engine, num_vehicles, city):
     datagen = Faker()
 
     def add_vehicles_helper(sess, chunk, n):
-        owners = sess.query(User).filter_by(city=city).all()
+        owners = sess.query(User).order_by(User.id.desc()).filter_by(city=city).all()
         vehicles = []
         for i in range(chunk, n):
             vehicle_type = MovRGenerator.generate_random_vehicle()
